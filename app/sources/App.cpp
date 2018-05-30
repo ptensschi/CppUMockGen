@@ -80,8 +80,10 @@ int App::Execute( int argc, const char* argv[] )
         ( "I,include-path", "Include path", cxxopts::value<std::vector<std::string>>(), "<path>" )
         ( "p,param-override", "Override parameter type", cxxopts::value<std::vector<std::string>>(), "<expr>" )
         ( "t,type-override", "Override generic type", cxxopts::value<std::vector<std::string>>(), "<expr>" )
-        ( "h,help", "Print help" );
-
+        ( "h,help", "Print help" )
+        ( "y,extra-include", "Extra include file", cxxopts::value<std::vector<std::string>>(), "<path>" )
+        ( "l,cpp11", "Interpretation of the input file as C++11", cxxopts::value<bool>(), "<cpp11>" );
+ 
     options.positional_help( "<input>" );
     options.parse_positional( std::vector<std::string> { "input" } );
 
@@ -180,6 +182,12 @@ int App::Execute( int argc, const char* argv[] )
             }
         }
 
+        bool useCpp11 = false;
+        if( options["cpp11"].as<bool>() )
+        {
+            useCpp11 = true;
+        }
+
         Config config( options["underlying-typedef"].as<bool>(),
                        options["param-override"].as<std::vector<std::string>>(),
                        options["type-override"].as<std::vector<std::string>>() );
@@ -188,7 +196,8 @@ int App::Execute( int argc, const char* argv[] )
 
         Parser parser;
 
-        if( parser.Parse( inputFilename, config, interpretAsCpp, options["include-path"].as<std::vector<std::string>>(), m_cerr ) )
+        if( parser.Parse( inputFilename, config, interpretAsCpp, useCpp11, options["include-path"].as<std::vector<std::string>>(), 
+                         options["extra-include"].as<std::vector<std::string>>(),m_cerr ) )
         {
             if( !mockOutputFilepath.empty() )
             {

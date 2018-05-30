@@ -207,13 +207,15 @@ TEST( App, MockOutput_OutDir )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+	std::vector<std::string> defines;
     std::string outputText = "#####TEXT1#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -255,6 +257,7 @@ TEST( App, MockOutput_CurrentDir )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####TEXT2#####";
 
     chdir( tempDirPath.c_str() );
@@ -263,7 +266,8 @@ TEST( App, MockOutput_CurrentDir )
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -303,13 +307,15 @@ TEST( App, MockOutput_OutFile )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####TEXT3#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -346,13 +352,15 @@ TEST( App, MockOutput_ConsoleOutput )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####TEXT4#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -417,13 +425,15 @@ TEST( App, MockOutput_InterpretAsCpp )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####FOO#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", true)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "-x ")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -457,13 +467,15 @@ TEST( App, MockOutput_UseUnderlyingTypedefType )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####FOO#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", true)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "-u ")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -497,13 +509,57 @@ TEST( App, MockOutput_IncludePaths )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths = { "IncludePath1", "IncludePath2" };
+	std::vector<std::string> defines;
     std::string outputText = "#####FOO#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
+            .ignoreOtherParameters().andReturnValue(true);
+    mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
+            .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
+
+    // Exercise
+    int ret = app.Execute( args.size(), args.data() );
+
+    // Verify
+    CHECK_EQUAL( 0, ret );
+    STRCMP_EQUAL( outputText.c_str(), output.str().c_str() );
+    CHECK_EQUAL( 0, error.tellp() );
+
+    // Cleanup
+}
+
+/*
+ * Check that preprocessor macro definitions are passed properly to the parser
+ */
+TEST( App, MockOutput_Defines )
+{
+    // Prepare
+    mock().installComparator( "std::vector<std::string>", stdVectorOfStringsComparator );
+    mock().installCopier( "std::ostream", stdOstreamCopier );
+
+    std::ostringstream output;
+    std::ostringstream error;
+    App app( output, error );
+
+    std::vector<const char *> args = { "CppUMockGen.exe", "-i", inputFilename.c_str(), "-m", "@", "-D", "DEFINE1", "-D", "DEFINE2" };
+
+    std::vector<std::string> paramOverrideOptions;
+    std::vector<std::string> typeOverrideOptions;
+	std::vector<std::string> includePaths;
+    std::vector<std::string> defines = { "DEFINE1", "DEFINE2" };
+    std::string outputText = "#####FOO#####";
+
+    mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
+            .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
+            .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
+    mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -537,13 +593,15 @@ TEST( App, MockOutput_paramOverrideOptions )
     std::vector<std::string> paramOverrideOptions = { "foo#bar=String", "foo@=Int/&$" };
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####FOO#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "-p foo#bar=String -p foo@=Int/&$ ")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -577,13 +635,15 @@ TEST( App, MockOutput_typeOverrideOptions )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions = { "#foo=String", "@const bar=Int/&$" };
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####FOO#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(true);
     mock().expectOneCall("Parser::GenerateMock").withStringParameter("genOpts", "-t #foo=String -t \"@const bar=Int/&$\" ")
             .withOutputParameterOfTypeReturning("std::ostream", "output", &outputText);
@@ -617,13 +677,15 @@ TEST( App, MockOutput_ParseError )
     std::vector<std::string> paramOverrideOptions;
     std::vector<std::string> typeOverrideOptions;
     std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
     std::string outputText = "#####TEXT4#####";
 
     mock().expectOneCall("Config::Config").withBoolParameter("useUnderlyingTypedefType", false)
             .withParameterOfType("std::vector<std::string>", "paramOverrideOptions", &paramOverrideOptions)
             .withParameterOfType("std::vector<std::string>", "typeOverrideOptions", &typeOverrideOptions);
     mock().expectOneCall("Parser::Parse").withParameter("inputFilepath", inputFilename.c_str()).withParameter("interpretAsCpp", false)
-            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths).withPointerParameter("error", &error)
+            .withParameterOfType("std::vector<std::string>", "includePaths", &includePaths)
+			.withParameterOfType("std::vector<std::string>", "defines", &defines).withPointerParameter("error", &error)
             .ignoreOtherParameters().andReturnValue(false);
     mock().expectNCalls(2, "ConsoleColorizer::SetColor").ignoreOtherParameters();
 

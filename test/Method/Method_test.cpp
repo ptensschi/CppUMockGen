@@ -13,9 +13,6 @@
 
 #include <map>
 
-#include <CppUTest/TestHarness.h>
-#include <CppUTestExt/MockSupport.h>
-
 #include <string>
 #include <vector>
 
@@ -23,6 +20,9 @@
 #include "ClangCompileHelper.hpp"
 
 #include "Method.hpp"
+
+#include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
 
 /*===========================================================================
  *                      COMMON TEST DEFINES & MACROS

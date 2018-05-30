@@ -70,8 +70,9 @@ void Parse( CXTranslationUnit tu, const Config &config, std::vector<std::unique_
         (CXClientData) &parseData );
 }
 
-bool Parser::Parse( const std::string &inputFilepath, const Config &config, bool interpretAsCpp,
-                    const std::vector<std::string> &includePaths, std::ostream &error )
+bool Parser::Parse( const std::string &inputFilepath, const Config &config, bool interpretAsCpp, bool useCpp11,
+                    const std::vector<std::string> &includePaths, const std::vector<std::string> &includeFiles, 
+                    std::ostream &error )
 {
     m_inputFilepath = inputFilepath;
     m_interpretAsCpp = interpretAsCpp;
@@ -84,15 +85,29 @@ bool Parser::Parse( const std::string &inputFilepath, const Config &config, bool
         clangOpts.push_back( "-xc++" );
     }
 
+    if( interpretAsCpp )
+    {
+        clangOpts.push_back( "-std=c++11" );
+    }
+
+    std::vector<std::string> includeFileOptions;
+
+    for( const std::string &includeFile : includeFiles )
+    {
+        includeFileOptions.push_back( "-include" + includeFile );
+        clangOpts.push_back( includeFileOptions.back().c_str() );
+        std::cout << includeFile << std::endl;
+    }
+
     std::vector<std::string> includePathOptions;
 
     for( const std::string &includePath : includePaths )
     {
         // Option strings must be stored in a vector, otherwise C strings would not be valid
         includePathOptions.push_back( "-I" + includePath );
-        clangOpts.push_back( includePathOptions.back().c_str() );
+        clangOpts.push_back( includePathOptions.back().c_str() );    
     }
-
+    
     CXTranslationUnit tu;
     // Note: Use of CXTranslationUnit_SkipFunctionBodies is not allowed, otherwise libclang
     // will not detect properly methods defined inline (which must not be mocked).

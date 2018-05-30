@@ -13,9 +13,6 @@
 
 #include <map>
 
-#include <CppUTest/TestHarness.h>
-#include <CppUTestExt/MockSupport.h>
-
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -26,6 +23,9 @@
 
 #include "ClangParseHelper.hpp"
 #include "ClangCompileHelper.hpp"
+
+#include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
 
 #include "Parser.hpp"
 #include "FileHelper.hpp"
@@ -97,7 +97,7 @@ TEST( MockGenerator, MockedFunction )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( tempFilePath, *config, false, std::vector<std::string>(), error );
+   bool result = parser.Parse( tempFilePath, *config, false, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
    // Verify
    CHECK_EQUAL( true, result );
@@ -140,7 +140,7 @@ TEST( MockGenerator, MockedMethod )
 
     // Exercise
     Parser parser;
-    bool result = parser.Parse( tempFilePath, *config, true, std::vector<std::string>(), error );
+    bool result = parser.Parse( tempFilePath, *config, true, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
     // Verify
     CHECK_EQUAL( true, result );
@@ -185,7 +185,7 @@ TEST( MockGenerator, MultipleMockableFunctionsAndMethods )
 
     // Exercise
     Parser parser;
-    bool result = parser.Parse( tempFilePath, *config, true, std::vector<std::string>(), error );
+    bool result = parser.Parse( tempFilePath, *config, true, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
     // Verify
     CHECK_EQUAL( true, result );
@@ -231,7 +231,7 @@ TEST( MockGenerator, FunctionNonMockable )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( tempFilePath, *config, false, std::vector<std::string>(), error );
+   bool result = parser.Parse( tempFilePath, *config, false, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
    // Verify
    CHECK_EQUAL( false, result );
@@ -262,7 +262,7 @@ TEST( MockGenerator, MethodNonMockable )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( tempFilePath, *config, true, std::vector<std::string>(), error );
+   bool result = parser.Parse( tempFilePath, *config, true, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
    // Verify
    CHECK_EQUAL( false, result );
@@ -298,7 +298,7 @@ TEST( MockGenerator, MixedMockableNonMockableFunctionsAndMethods )
 
     // Exercise
     Parser parser;
-    bool result = parser.Parse( tempFilePath, *config, true, std::vector<std::string>(), error );
+    bool result = parser.Parse( tempFilePath, *config, true, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
     // Verify
     CHECK_EQUAL( true, result );
@@ -339,7 +339,7 @@ TEST( MockGenerator, SyntaxError )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( tempFilePath, *config, false, std::vector<std::string>(), error );
+   bool result = parser.Parse( tempFilePath, *config, false, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
    // Verify
    CHECK_EQUAL( false, result );
@@ -372,7 +372,7 @@ TEST( MockGenerator, Warning )
    // Exercise
    std::vector<std::string> results;
    Parser parser;
-   bool result = parser.Parse( tempFilePath, *config, false, std::vector<std::string>(), error );
+   bool result = parser.Parse( tempFilePath, *config, false, false, std::vector<std::string>(), std::vector<std::string>(), error );
    parser.GenerateMock( "", output );
 
    // Verify
@@ -400,7 +400,7 @@ TEST( MockGenerator, NonExistingInputFile )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( nonexistingFilePath, *config, false, std::vector<std::string>(), error );
+   bool result = parser.Parse( nonexistingFilePath, *config, false, false, std::vector<std::string>(), std::vector<std::string>(), error );
 
    // Verify
    CHECK_EQUAL( false, result );
@@ -432,7 +432,39 @@ TEST( MockGenerator, IncludePaths )
 
    // Exercise
    Parser parser;
-   bool result = parser.Parse( tempFilename, *config, true, std::vector<std::string>{includePath}, error );
+   bool result = parser.Parse( tempFilename, *config, true, false, std::vector<std::string>{includePath}, std::vector<std::string>(), error );
+
+   // Verify
+   CHECK_EQUAL( true, result );
+   CHECK_EQUAL( 0, error.tellp() )
+
+   // Cleanup
+}
+
+/*
+ * Check that preprocessor macro definitions are processed properly.
+ */
+IGNORE_TEST( MockGenerator, PreprocessorMacroDefinitions )
+{
+   // Prepare
+   Config* config = GetMockConfig();
+   std::ostringstream error;
+
+   std::string define = "SOME_DEFINE";
+
+   SimpleString testHeader =
+           "#ifndef SOME_DEFINE\n"
+           "#error Some error;\n"
+           "#endif\n";
+   SetupTempFile( testHeader );
+
+   chdir( tempDirPath.c_str() );
+
+   mock().expectOneCall("Function::Parse").withConstPointerParameter("config", config).ignoreOtherParameters().andReturnValue(true);
+
+   // Exercise
+   Parser parser;
+   bool result = parser.Parse( tempFilename, *config, true, false, std::vector<std::string>(), std::vector<std::string>{define}, error );
 
    // Verify
    CHECK_EQUAL( true, result );
