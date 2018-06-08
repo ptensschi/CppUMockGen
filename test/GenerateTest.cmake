@@ -37,7 +37,7 @@ set_property( TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED 1 )
 if( MSVC )
     target_link_libraries( ${PROJECT_NAME} debug CppUTest64d ${LibClang_LIBRARIES} optimized CppUTest64 ${LibClang_LIBRARIES} )
 else()
-    target_link_libraries( ${PROJECT_NAME} CppUTest64 CppUTestExt64 ${LibClang_LIBRARIES} gcov pthread )
+    target_link_libraries( ${PROJECT_NAME} CppUTest CppUTestExt ${LibClang_LIBRARIES} gcov pthread )
 endif()
 
 add_dependencies( build ${PROJECT_NAME} )

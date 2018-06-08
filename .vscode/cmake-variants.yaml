@@ -1,0 +1,20 @@
+buildType:
+  default: debug
+  description: My option
+  choices:
+    debug:
+      short: Debug
+      long: Build with Debug
+      buildType: Debug
+    release:
+      short: Release
+      long: Build with Release
+      buildType: Release
+targetVariant:
+  default: 'x86'
+  choices:
+    'x86':
+      short: x86
+      long: build x86
+      settings:
+        CPPUTEST_HOME: '/mingw64/lib/cpputest'
