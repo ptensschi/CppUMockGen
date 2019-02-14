@@ -606,6 +606,27 @@ public:
     }
 };
 
+class ArgumentLongLong : public ArgumentStandard
+{
+public:
+    virtual ~ArgumentLongLong() {}
+
+    virtual std::string GetCallFront(bool) const override
+    {
+        return ".withLongLongIntParameter(";
+    }
+};
+
+class ArgumentUnsignedLongLong : public ArgumentStandard
+{
+public:
+    virtual ~ArgumentUnsignedLongLong() {}
+
+    virtual std::string GetCallFront(bool) const override
+    {
+        return ".withUnsignedLongLongIntParameter(";
+    }
+};
 class ArgumentUnsignedLong : public ArgumentStandard
 {
 public:

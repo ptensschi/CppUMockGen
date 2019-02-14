@@ -1,2 +1,3 @@
 /build*
 /coverage*
+**/cquery_cached_index
