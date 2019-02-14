@@ -924,6 +924,14 @@ Function::Argument* ArgumentParser::ProcessType( const CXType &argType, const CX
             ret = new ArgumentLong;
             break;
 
+        case CXType_LongLong:
+            ret = new ArgumentLongLong;
+            break;
+
+        case CXType_ULongLong:
+            ret = new ArgumentUnsignedLongLong;
+            break;
+
         case CXType_ULong:
         case CXType_Char32:
             ret = new ArgumentUnsignedLong;
