@@ -136,6 +136,28 @@ public:
     }
 };
 
+class ReturnUnsignedLongLong : public ReturnStandard
+{
+public:
+    virtual ~ReturnUnsignedLongLong() {};
+
+    virtual std::string GetMockCall() const override
+    {
+        return ".returnUnsignedLongLongIntValue()";
+    }
+};
+
+class ReturnLongLong : public ReturnStandard
+{
+public:
+    virtual ~ReturnLongLong() {};
+
+    virtual std::string GetMockCall() const override
+    {
+        return ".returnLongLongIntValue()";
+    }
+};
+
 class ReturnDouble : public ReturnStandard
 {
 public:
@@ -335,6 +357,14 @@ Function::Return* ReturnParser::ProcessType( const CXType &returnType, bool inhe
 
         case CXType_ULong:
             ret = new ReturnUnsignedLong;
+            break;
+
+        case CXType_LongLong:
+            ret = new ReturnLongLong;
+            break;
+
+        case CXType_ULongLong:
+            ret = new ReturnUnsignedLongLong;
             break;
 
         case CXType_Char32:
