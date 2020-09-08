@@ -1,5 +1,6 @@
 #include "Config.hpp"
 
+#include <stdexcept>
 #include <set>
 #include <vector>
 

@@ -12,6 +12,7 @@
  *===========================================================================*/
 
 #include <map>
+#include <stdexcept>
 
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>

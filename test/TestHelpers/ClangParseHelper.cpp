@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "ClangParseHelper.hpp"
 
 void ClangParseHelper::ParseHeader( const std::string &code, const std::function<void(CXCursor)> &callback )

@@ -101,7 +101,7 @@ TEST( MockGenerator, MockedFunction )
 
    // Verify
    CHECK_EQUAL( true, result );
-   CHECK_EQUAL( 0, error.tellp() )
+   CHECK_EQUAL( 0, error.tellp() );
    mock().checkExpectations();
 
    // Prepare
@@ -144,7 +144,7 @@ TEST( MockGenerator, MockedMethod )
 
     // Verify
     CHECK_EQUAL( true, result );
-    CHECK_EQUAL( 0, error.tellp() )
+    CHECK_EQUAL( 0, error.tellp() );
     mock().checkExpectations();
 
     // Prepare
@@ -189,7 +189,7 @@ TEST( MockGenerator, MultipleMockableFunctionsAndMethods )
 
     // Verify
     CHECK_EQUAL( true, result );
-    CHECK_EQUAL( 0, error.tellp() )
+    CHECK_EQUAL( 0, error.tellp() );
     mock().checkExpectations();
 
     // Prepare
@@ -302,7 +302,7 @@ TEST( MockGenerator, MixedMockableNonMockableFunctionsAndMethods )
 
     // Verify
     CHECK_EQUAL( true, result );
-    CHECK_EQUAL( 0, error.tellp() )
+    CHECK_EQUAL( 0, error.tellp() );
     mock().checkExpectations();
 
     // Prepare
@@ -436,7 +436,7 @@ TEST( MockGenerator, IncludePaths )
 
    // Verify
    CHECK_EQUAL( true, result );
-   CHECK_EQUAL( 0, error.tellp() )
+   CHECK_EQUAL( 0, error.tellp() );
 
    // Cleanup
 }
@@ -468,7 +468,7 @@ IGNORE_TEST( MockGenerator, PreprocessorMacroDefinitions )
 
    // Verify
    CHECK_EQUAL( true, result );
-   CHECK_EQUAL( 0, error.tellp() )
+   CHECK_EQUAL( 0, error.tellp() );
 
    // Cleanup
 }
